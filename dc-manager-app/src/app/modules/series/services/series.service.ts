@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 
 import { of } from 'rxjs';
 
-import { SeriesModel } from './series.model';
+import { SeriesModel } from '../models/series.model';
 
 @Injectable({ providedIn: 'any' })
 export class SeriesService {

@@ -3,18 +3,12 @@ import { NgModule } from '@angular/core';
 
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 
-import { HeaderItems, HEADER_ITEMS } from './header-items';
-import { HeaderComponent } from './header.component';
+import { HeaderComponent } from './components/header.component';
 
 @NgModule({
   imports: [CommonModule, BreadcrumbModule],
   declarations: [HeaderComponent],
   exports: [HeaderComponent],
-  providers: [
-    {
-      provide: HEADER_ITEMS,
-      useValue: HeaderItems,
-    },
-  ],
+  providers: [],
 })
 export class HeaderModule {}

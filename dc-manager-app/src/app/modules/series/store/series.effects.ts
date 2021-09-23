@@ -1,12 +1,12 @@
 import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
-import { createEffect, Actions, ofType } from '@ngrx/effects';
 
+import { createEffect, Actions, ofType } from '@ngrx/effects';
 import { concatMap, map, tap } from 'rxjs/operators';
 
-import { SeriesService } from '../../../core/series/series.service';
-
 import { seriesActionTypes } from './series.actions';
+import { SeriesService } from '../services/series.service';
+
 
 @Injectable({ providedIn: 'any' })
 export class SeriesEffects {

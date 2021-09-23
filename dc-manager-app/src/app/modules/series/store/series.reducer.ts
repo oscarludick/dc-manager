@@ -1,12 +1,8 @@
-import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
+import { EntityAdapter, createEntityAdapter } from '@ngrx/entity';
 import { createReducer, on } from '@ngrx/store';
 
 import { seriesActionTypes } from './series.actions';
-import { SeriesModel } from '../../../core/series/series.model';
-
-export interface SeriesState extends EntityState<SeriesModel> {
-  seriesLoaded: boolean;
-}
+import { SeriesModel } from '../models/series.model';
 
 export const adapter: EntityAdapter<SeriesModel> =
   createEntityAdapter<SeriesModel>();

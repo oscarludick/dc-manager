@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 
-import { SeriesModel } from '../../../core/series/series.model';
+import { SeriesModel } from '../models/series.model';
 
 export const seriesLoaded = createAction(
   '[Series] Loaded Series List Successfully',

@@ -10,11 +10,12 @@ import { AppTableModule } from '../../shared/app-table/table.module';
 import { AppTitleModule } from '../../shared/app-title/app-title.module';
 import { AppButtonCreateModule } from '../../shared/app-button-create/app-button-create.module';
 
-import { SeriesListComponent } from './series-list.component';
-import { SeriesEditComponent } from './series-edit.component';
+import { SeriesListComponent } from './components/series-list.component';
+import { SeriesEditComponent } from './components/series-edit.component';
 
 import { SeriesReducer } from './store/series.reducer';
 import { SeriesEffects } from './store/series.effects';
+import { SeriesColumnsProvider } from './providers/series-columns.provider';
 
 const routes = [
   { path: '', component: SeriesListComponent },
@@ -37,5 +38,8 @@ const routes = [
   ],
   declarations: [SeriesListComponent, SeriesEditComponent],
   exports: [SeriesListComponent, SeriesEditComponent],
+  providers: [
+    SeriesColumnsProvider
+  ]
 })
 export class SeriesModule {}

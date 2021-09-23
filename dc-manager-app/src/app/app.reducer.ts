@@ -1,17 +1,13 @@
-import { SeriesModel } from './core/series/series.model';
+import { ActionReducerMap } from '@ngrx/store';
+
+import { MenuItem } from 'primeng/api';
+
+import { headerReducer } from './layout/header/store/header.reducer';
 
 export interface AppState {
-  series: {
-    current: SeriesModel;
-    list: ReadonlyArray<SeriesModel[]>;
-  };
-  comics: {
-    current: any;
-    list: ReadonlyArray<any[]>;
-  };
+  headerItems: MenuItem[];
 }
 
-export const AppReducers = {
-  series: null,
-  comics: null,
+export const appReducers: ActionReducerMap<AppState> = {
+  headerItems: headerReducer
 };

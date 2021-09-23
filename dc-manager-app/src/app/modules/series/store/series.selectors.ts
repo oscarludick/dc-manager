@@ -1,14 +1,9 @@
 import { createSelector, createFeatureSelector } from '@ngrx/store';
 
 import { selectAll } from './series.reducer';
-import { SeriesState } from './series.reducer';
+import { SeriesStateModel } from '../models/series-state.model';
 
 export const seriesFeatureSelector =
-  createFeatureSelector<SeriesState>('series');
+  createFeatureSelector<SeriesStateModel>('series');
 
 export const getAllSeries = createSelector(seriesFeatureSelector, selectAll);
-
-export const areCoursesLoaded = createSelector(
-  seriesFeatureSelector,
-  (state) => state.seriesLoaded
-);
