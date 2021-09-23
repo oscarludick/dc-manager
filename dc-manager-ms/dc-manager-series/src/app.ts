@@ -4,8 +4,8 @@ import morgan from "morgan";
 
 import { useExpressServer } from "routing-controllers";
 
-import { SeriesController } from "./controllers/series.controller";
 import { logger } from "./logger";
+import { SeriesController } from "./series/series.controller";
 
 export class App {
   private readonly app: Express;

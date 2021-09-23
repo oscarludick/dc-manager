@@ -12,8 +12,8 @@ import {
 import { ValidateSchemaMiddleware } from "../middlewares/validate-schema";
 import { RequestLoggerMiddleware } from "../middlewares/request-logger";
 
-import { SeriesRequestModel } from "../models/series-request.model";
-import { SeriesService } from "../services/series.service";
+import { SeriesRequestModel } from "./series-request.model";
+import { SeriesService } from "./series.service";
 
 @JsonController("/series")
 @UseBefore(RequestLoggerMiddleware)

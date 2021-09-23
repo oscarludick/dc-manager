@@ -1,7 +1,7 @@
 import { logger } from "../logger";
 
-import { SeriesRepository } from "../schemas/series.repository";
-import { SeriesRequestModel } from "../models/series-request.model";
+import { SeriesRepository } from "./series.repository";
+import { SeriesRequestModel } from "./series-request.model";
 
 export class SeriesService {
   async save(model: SeriesRequestModel) {

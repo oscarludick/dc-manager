@@ -1,4 +1,4 @@
-import { ISeriesDocument } from "../schemas/series.repository";
+import { ISeriesDocument } from "./series.repository";
 
 export class SeriesModel {
   private _seriesModel: ISeriesDocument;
