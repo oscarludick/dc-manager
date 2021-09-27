@@ -25,7 +25,9 @@ class MongooseInstance {
       logger.info("Connect to an mongodb is opened.");
     });
 
-    this.mongooseInstance = Mongoose.connect(connectionString);
+    this.mongooseInstance = Mongoose.connect(connectionString, {
+      appName: "dc-manager-series",
+    });
 
     this.mongooseConnection.on("connected", () => {
       logger.info("Mongoose default connection open to " + connectionString);

@@ -19,31 +19,38 @@ export class AppTitleActions {
   selector: 'app-title',
   template: `
     <div class="title">
-      <h3 class="title__label">{{title}}</h3>
-      <span class="title__space"></span>
       <ng-container *ngIf="titleActions">
-        <ng-container *ngTemplateOutlet="titleActions.templateRef"></ng-container>
+        <div class="flex flex-row title__actions">
+          <ng-container
+            *ngTemplateOutlet="titleActions.templateRef"
+          ></ng-container>
+        </div>
       </ng-container>
-    <div>
+      <div></div>
+    </div>
   `,
   styles: [
-    `.title {
-      display: flex;
-      box-sizing: content-box;
-      height: 36px;
-      align-items: center;
-    }
-    .title__space {
-      margin-left: auto;
-    }
-    .title__label {
-    }
+    `
+      .title {
+        display: flex;
+        box-sizing: content-box;
+        height: 36px;
+        align-items: center;
+      }
+      .title__space {
+        margin-left: auto;
+      }
+      .title__label {
+      }
+      :host ::ng-deep button {
+        margin-left: 1em;
+      }
     `,
   ],
 })
 export class AppTitleComponent {
   @Input()
-  title: string = "";
+  title: string = '';
 
   @ContentChild(AppTitleActions)
   titleActions!: AppTitleActions;

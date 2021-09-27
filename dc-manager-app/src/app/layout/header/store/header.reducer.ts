@@ -12,6 +12,8 @@ export const headerReducer = createReducer(
     return [...state, { ...action.item }];
   }),
   on(headerActionTypes.removeItemHeader, (state, action) => {
-    return [...state.splice(action.index, 1)];
+    return state.filter((_, index)=> {
+      return index !== action.index;
+    });
   })
 );

@@ -23,8 +23,8 @@ const routes = [
       import('./modules/series/series.module').then((m) => m.SeriesModule),
   },
   {
-    path: '',
-    redirectTo: 'series',
+    path: '**',
+    redirectTo: '',
     pathMatch: 'full',
   },
 ];
@@ -34,18 +34,16 @@ const routes = [
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
-    RouterModule.forRoot(routes),
+    RouterModule.forRoot(routes, { useHash: true }),
 
     HeaderModule,
     SideBarModule,
 
     StoreModule.forRoot(appReducers, {}),
     EffectsModule.forRoot(),
-    !environment.production ? StoreDevtoolsModule.instrument() : []
+    !environment.production ? StoreDevtoolsModule.instrument() : [],
   ],
-  providers: [
-    {provide: APP_BASE_HREF, useValue: '/'}
-  ],
+  providers: [{ provide: APP_BASE_HREF, useValue: '/' }],
   declarations: [AppComponent],
   bootstrap: [AppComponent],
 })

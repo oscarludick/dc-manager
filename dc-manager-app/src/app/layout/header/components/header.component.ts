@@ -6,15 +6,19 @@ import { Store } from '@ngrx/store';
 
 import { MenuItem } from 'primeng/api';
 
-import { AppState } from '../../../app.reducer';
+import { AppState } from 'src/app/app.reducer';
 import { getAllHeaderItems } from '../store/header.selectors';
 
 @Component({
   selector: 'app-header',
   template: `
-    <ng-container *ngIf="items$ | async as items">
-      <p-breadcrumb [model]="items"></p-breadcrumb>
-    </ng-container>
+    <div class="flex align-items-center pl-5 pr-5">
+      <app-button-back></app-button-back>
+      <span class="ml-2"></span>
+      <ng-container *ngIf="items$ | async as items">
+        <p-breadcrumb [model]="items"></p-breadcrumb>
+      </ng-container>
+    </div>
   `,
   styles: [
     `

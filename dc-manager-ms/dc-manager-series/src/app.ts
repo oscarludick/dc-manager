@@ -1,6 +1,7 @@
 import express, { Express } from "express";
 import config from "config";
 import morgan from "morgan";
+import cors from "cors";
 
 import { useExpressServer } from "routing-controllers";
 
@@ -27,6 +28,7 @@ export class App {
   }
 
   private middlewares(): void {
+    this.app.use(cors());
     this.app.use(express.json());
     this.app.use(express.urlencoded({ extended: false }));
     this.app.use(morgan("dev"));
@@ -36,7 +38,7 @@ export class App {
     useExpressServer(this.app, {
       routePrefix: "api",
       controllers: [SeriesController],
-      cors: false,
+      cors: true,
       validation: false,
     });
   }

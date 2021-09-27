@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { isValidObjectId } from "mongoose";
 
 import { ExpressMiddlewareInterface } from "routing-controllers";
 import { checkSchema, validationResult } from "express-validator";
@@ -6,17 +7,29 @@ import { checkSchema, validationResult } from "express-validator";
 export class ValidateSchemaMiddleware implements ExpressMiddlewareInterface {
   private readonly schamaValidations = [
     checkSchema({
+      id: {
+        in: ["params"],
+        errorMessage: "No se puede actualizar este recurso.",
+        optional: { options: { nullable: true } },
+        custom: {
+          options: (value, { req }) => {
+            return req.params?.id && isValidObjectId(value);
+          },
+        },
+      },
       serie: {
         errorMessage: "Serie es incorrecto, verifica este campo.",
         isString: true,
         trim: true,
         notEmpty: true,
+        toUpperCase: true,
       },
       periocity: {
         errorMessage: "Período es incorrecto, verifica este campo.",
         isString: true,
         trim: true,
         notEmpty: true,
+        toUpperCase: true,
       },
       startDate: {
         errorMessage: "Fecha de inicio es incorrecto, verifica este campo.",
@@ -49,12 +62,10 @@ export class ValidateSchemaMiddleware implements ExpressMiddlewareInterface {
       return next();
     }
 
-    response
-      .status(400)
-      .json({
-        payload: null,
-        message: "Esquema o parámetros inválidos.",
-        errors: errors.array(),
-      });
+    response.status(400).json({
+      payload: null,
+      message: "Esquema o parámetros inválidos.",
+      errors: errors.array(),
+    });
   }
 }

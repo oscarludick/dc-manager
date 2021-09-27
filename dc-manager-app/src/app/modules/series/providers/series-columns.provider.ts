@@ -18,11 +18,11 @@ export const SeriesColumnsProvider: Provider[] = [
       },
       {
         header: 'Inicio',
-        field: 'startYear',
+        field: 'startDate',
       },
       {
         header: 'Finalizado',
-        field: 'endYear',
+        field: 'endDate',
       },
     ],
   },

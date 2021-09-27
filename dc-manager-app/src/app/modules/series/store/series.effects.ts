@@ -14,7 +14,9 @@ export class SeriesEffects {
     this.actions$.pipe(
       ofType(seriesActionTypes.loadSeries),
       concatMap(() => this.seriesService.getAll()),
-      map((series) => seriesActionTypes.seriesLoaded({ series: series }))
+      map((response) =>
+        seriesActionTypes.seriesLoaded({ series: response.payload })
+      )
     )
   );
 
@@ -41,7 +43,8 @@ export class SeriesEffects {
     () =>
       this.actions$.pipe(
         ofType(seriesActionTypes.updateSeries),
-        concatMap((action) => this.seriesService.save(action.serie))
+        concatMap((action) => this.seriesService.save(action.serie)),
+        tap(() => this.router.navigateByUrl('/series'))
       ),
     { dispatch: false }
   );
