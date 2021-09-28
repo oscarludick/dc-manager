@@ -2,14 +2,16 @@ import { InjectionToken } from '@angular/core';
 
 import { MenuItem } from 'primeng/api';
 
-export const SidebarItems = [
+export const SidebarItems: MenuItem[] = [
   {
     label: 'Series',
     icon: 'pi pi-tags',
+    routerLink: ['series'],
   },
   {
     label: 'Comics',
     icon: 'pi pi-inbox',
+    routerLink: ['comics'],
   },
 ];
 

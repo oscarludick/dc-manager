@@ -1,8 +1,7 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 import { ResponseModel } from 'src/app/core/models/response.model';
 import { SeriesModel } from '../models/series.model';
@@ -12,33 +11,27 @@ export class SeriesService {
   private readonly url: string = 'http://localhost:1337/api/series';
   constructor(private readonly httpClient: HttpClient) {}
 
-  get(id: string) {
-    return of({});
+  get(id: string): Observable<ResponseModel> {
+    return this.httpClient.get<ResponseModel>(`${this.url}/${id}`);
   }
 
   getAll(): Observable<ResponseModel> {
-    return this.httpClient
-      .get<SeriesModel[]>(this.url)
-      .pipe(map((response) => new ResponseModel(response)));
+    return this.httpClient.get<ResponseModel>(this.url);
   }
 
-  save(model: SeriesModel) {
+  save(model: SeriesModel): Observable<ResponseModel> {
     return model.id ? this.update(model) : this.create(model);
   }
 
-  delete(id: string) {
-    return of({});
+  delete(id: string): Observable<void> {
+    return this.httpClient.delete<void>(`${this.url}/${id}`);
   }
 
-  private update(model: SeriesModel) {
-    return of({});
+  private update(model: SeriesModel): Observable<ResponseModel> {
+    return this.httpClient.put<ResponseModel>(`${this.url}/${model.id}`, model);
   }
 
-  private create(model: SeriesModel) {
-    return this.httpClient
-      .post(this.url, model, {
-        headers: new HttpHeaders().append('Content-Type', 'application/json'),
-      })
-      .pipe(map((response) => new ResponseModel(response)));
+  private create(model: SeriesModel): Observable<ResponseModel> {
+    return this.httpClient.post<ResponseModel>(this.url, model);
   }
 }

@@ -33,14 +33,12 @@ export class ValidateSchemaMiddleware implements ExpressMiddlewareInterface {
       },
       startDate: {
         errorMessage: "Fecha de inicio es incorrecto, verifica este campo.",
-        isDate: true,
         exists: true,
         notEmpty: true,
       },
       endDate: {
         errorMessage: "Fecha de finalizado es incorrecto, verifica este campo.",
-        optional: { options: { nullable: true } },
-        isDate: true,
+        optional: { options: { nullable: true, checkFalsy: true } },
       },
     }),
   ];
@@ -64,7 +62,7 @@ export class ValidateSchemaMiddleware implements ExpressMiddlewareInterface {
 
     response.status(400).json({
       payload: null,
-      message: "Esquema o parámetros inválidos.",
+      message: "Solicitud inválida, verifica la información.",
       errors: errors.array(),
     });
   }

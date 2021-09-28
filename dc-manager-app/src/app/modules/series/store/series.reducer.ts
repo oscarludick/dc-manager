@@ -15,8 +15,6 @@ export const SeriesReducer = createReducer(
   initialState,
 
   on(seriesActionTypes.seriesLoaded, (state, action) => {
-    console.log(action);
-    console.log(state);
     return adapter.setAll(action.series, { ...state, seriesLoaded: true });
   }),
 

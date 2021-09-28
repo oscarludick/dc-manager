@@ -11,12 +11,10 @@ import { ButtonModule } from 'primeng/button';
 import { Table, TableModule } from 'primeng/table';
 import { InputTextModule } from 'primeng/inputtext';
 
-
 @Component({
   selector: 'app-table',
   template: `
     <div style="margin-top: 1em">
-      {{ selectedItems | json }}
       <p-table
         #datatable
         selectionMode="multiple"
@@ -31,8 +29,6 @@ import { InputTextModule } from 'primeng/inputtext';
         currentPageReportTemplate="{first} - {last} de {totalRecords}"
         [rowsPerPageOptions]="[10, 25, 50]"
         responsiveLayout="scroll"
-        (onRowSelect)="onSelectRow()"
-        (onRowUnselect)="onSelectRow()"
       >
         <ng-template pTemplate="caption">
           <div class="flex">
@@ -84,6 +80,8 @@ import { InputTextModule } from 'primeng/inputtext';
   ],
 })
 export class AppTableComponent {
+  private _selectedItems: any[] = [];
+
   @Input()
   data: any[] = [];
 
@@ -91,14 +89,17 @@ export class AppTableComponent {
   columns: { header: string; field: string }[] = [];
 
   @Input()
-  selectedItems: any[] = [];
+  set selectedItems(items: any[]) {
+    this.selectedItemsChange.next([...items]);
+    this._selectedItems = items;
+  }
+
+  get selectedItems() {
+    return this._selectedItems;
+  }
 
   @Output()
   selectedItemsChange = new EventEmitter<any[]>();
-
-  onSelectRow() {
-    this.selectedItemsChange.next(this.selectedItems);
-  }
 
   onSearch(datatable: Table, $event: any): any {
     return datatable.filterGlobal($event.target.value, 'contains');

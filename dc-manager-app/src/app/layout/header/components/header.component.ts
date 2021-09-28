@@ -18,6 +18,8 @@ import { getAllHeaderItems } from '../store/header.selectors';
       <ng-container *ngIf="items$ | async as items">
         <p-breadcrumb [model]="items"></p-breadcrumb>
       </ng-container>
+      <span class="ml-auto"></span>
+      <app-button-log></app-button-log>
     </div>
   `,
   styles: [

@@ -9,6 +9,7 @@ import {
   UseBefore,
   Get,
   Param,
+  Delete,
 } from "routing-controllers";
 
 import { ValidateSchemaMiddleware } from "../middlewares/validate-schema";
@@ -28,13 +29,53 @@ export class SeriesController {
     this.seriesService = new SeriesService();
   }
 
+  @Delete("/:id")
+  async delete(@Param("id") id: string, @Res() response: Response): Promise<any> {
+    const result = await this.seriesService.delete(id);
+    if (!result.errors.length) {
+      return response
+        .status(200)
+        .json(new SeriesResponseModel(result.data, result.errors, "Se eliminó serie con exito"));
+    } else {
+      return response
+        .status(400)
+        .json(
+          new SeriesResponseModel(
+            result.data,
+            result.errors,
+            `Error al eliminar serie con id ${id}.`
+          )
+        );
+    }
+  }
+
+  @Get("/:id")
+  async get(@Param("id") id: string, @Res() response: Response): Promise<any> {
+    const result = await this.seriesService.get(id);
+    if (!result.errors.length) {
+      return response
+        .status(200)
+        .json(new SeriesResponseModel(result.data, result.errors, ""));
+    } else {
+      return response
+        .status(400)
+        .json(
+          new SeriesResponseModel(
+            result.data,
+            result.errors,
+            `Error al obtener serie con id ${id}.`
+          )
+        );
+    }
+  }
+
   @Get()
   async getAll(@Res() response: Response): Promise<any> {
     const result = await this.seriesService.getAll();
     if (!result.errors.length) {
       return response
         .status(200)
-        .json(new SeriesResponseModel(result.data, result.errors, ""));
+        .json(new SeriesResponseModel(result.data, result.errors, "Listado de series"));
     } else {
       return response
         .status(400)
@@ -77,30 +118,34 @@ export class SeriesController {
       );
   }
 
-  @Put('/:id')
+  @Put("/:id")
   @HttpCode(203)
   @UseBefore(ValidateSchemaMiddleware)
-  async update(@Param('id') id: string,  @Res() response: Response, @Body() body: SeriesRequestModel): Promise<any> {
-     const result = await this.seriesService.update(id, body);
-     if (!result.errors.length) {
-       return response
-         .status(201)
-         .json(
-           new SeriesResponseModel(
-             result.data,
-             result.errors,
-             "Serie actualizada con exito"
-           )
-         );
-     }
-     return response
-       .status(400)
-       .json(
-         new SeriesResponseModel(
-           result.data,
-           result.errors,
-           "Error al consultar o actualizar serie"
-         )
-       );
+  async update(
+    @Param("id") id: string,
+    @Res() response: Response,
+    @Body() body: SeriesRequestModel
+  ): Promise<any> {
+    const result = await this.seriesService.update(id, body);
+    if (!result.errors.length) {
+      return response
+        .status(201)
+        .json(
+          new SeriesResponseModel(
+            result.data,
+            result.errors,
+            "Serie actualizada con exito"
+          )
+        );
+    }
+    return response
+      .status(400)
+      .json(
+        new SeriesResponseModel(
+          result.data,
+          result.errors,
+          `Error al actualizar/consultar serie con id ${id}.`
+        )
+      );
   }
 }

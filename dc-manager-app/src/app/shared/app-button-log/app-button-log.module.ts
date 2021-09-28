@@ -1,19 +1,21 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, NgModule } from '@angular/core';
+import { Component, NgModule } from '@angular/core';
+import { Store } from '@ngrx/store';
 
 import { ButtonModule } from 'primeng/button';
+import { AppState } from 'src/app/app.reducer';
 
 @Component({
-  selector: 'app-button-action',
+  selector: 'app-button-log',
   template: `
     <button
-      [attr.title]="label"
+      [attr.title]="'Ver eventos'"
       pButton
       pRipple
       type="button"
-      [label]="label"
-      [disabled]="disabled"
+      icon="pi pi-clock"
       class="p-button-sm p-button-secondary"
+      (click)="onShowLog()"
     ></button>
   `,
   styles: [
@@ -34,17 +36,19 @@ import { ButtonModule } from 'primeng/button';
     `,
   ],
 })
-export class AppButtonActionComponent {
-  @Input()
-  label: string = '';
+export class AppButtonLogComponent {
+  constructor(private readonly store: Store<AppState>) {
+    this.store.subscribe((result)=>{
+      console.log(result);
+    })
+  }
 
-  @Input()
-  disabled: boolean = false;
+  onShowLog(): void {}
 }
 
 @NgModule({
   imports: [CommonModule, ButtonModule],
-  declarations: [AppButtonActionComponent],
-  exports: [AppButtonActionComponent],
+  declarations: [AppButtonLogComponent],
+  exports: [AppButtonLogComponent],
 })
-export class AppButtonActionModule {}
+export class AppButtonLogModule {}

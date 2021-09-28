@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 
 import { AppState } from 'src/app/app.reducer';
 import { headerActionTypes } from 'src/app/layout/header/store/header.actions';
+import { SeriesModel } from '../models/series.model';
 
 import { SeriesService } from '../services/series.service';
 import { seriesActionTypes } from '../store/series.actions';
@@ -29,25 +31,23 @@ import { seriesActionTypes } from '../store/series.actions';
           <div class="field col-12"></div>
           <div class="field col-4">
             <label for="serie">Fecha inicio</label>
-            <input
-              id="serie"
-              type="text"
-              pInputText
+            <p-calendar
+              id="startDate"
+              dateFormat="yy-mm-dd"
               formControlName="startDate"
-              class="inputfield w-full p-inputtext-sm"
-              placeholder="Nombre de la serie"
-            />
+              styleClass="inputfield w-full p-inputtext-sm"
+              placeholder="Fecha de ingreso"
+            ></p-calendar>
           </div>
           <div class="field col-4">
             <label for="serie">Fecha finaliza <small>(opcional)</small></label>
-            <input
-              id="serie"
-              type="text"
-              pInputText
+            <p-calendar
+              id="endDate"
               formControlName="endDate"
-              class="inputfield w-full p-inputtext-sm"
-              placeholder="Nombre de la serie"
-            />
+              dateFormat="yy-mm-dd"
+              styleClass="inputfield w-full p-inputtext-sm"
+              placeholder="Fecha de finalización"
+            ></p-calendar>
           </div>
           <div class="field col-12"></div>
           <div class="field col-4">
@@ -89,14 +89,13 @@ import { seriesActionTypes } from '../store/series.actions';
       </div>
     </form>
   `,
-  providers: [
-    SeriesService
-  ]
+  providers: [SeriesService],
 })
 export class SeriesEditComponent {
   public form: FormGroup;
 
   constructor(
+    private readonly route: ActivatedRoute,
     private readonly formBuilder: FormBuilder,
     private readonly store: Store<AppState>
   ) {
@@ -104,6 +103,7 @@ export class SeriesEditComponent {
       headerActionTypes.addItemHeader({ item: { label: 'Editar Serie' } })
     );
     this.form = this.formBuilder.group({
+      id: [null],
       serie: ['', Validators.required],
       periocity: ['', Validators.required],
       startDate: [null, Validators.required],
@@ -111,14 +111,28 @@ export class SeriesEditComponent {
     });
   }
 
+  ngOnInit() {
+    const data: SeriesModel = this.route.snapshot.data.data;
+    const model: SeriesModel = Object.assign({
+      ...data,
+      startDate: data.startDate ? new Date(data.startDate) : null,
+      endDate: data.endDate ? new Date(data.endDate) : null,
+    });
+    this.form.patchValue(model);
+  }
+
   ngOnDestroy() {
     this.store.dispatch(headerActionTypes.removeItemHeader({ index: 1 }));
   }
 
   onSubmit(): void {
-    const serie = Object.assign({}, this.form.value);
-    this.store.dispatch(
-      seriesActionTypes.createSeries({serie})
+    const serie: SeriesModel = new SeriesModel(
+      Object.assign({}, this.form.value)
     );
+    if (serie.id) {
+      this.store.dispatch(seriesActionTypes.createSeries({ serie }));
+    } else {
+      this.store.dispatch(seriesActionTypes.updateSeries({ serie }));
+    }
   }
 }
